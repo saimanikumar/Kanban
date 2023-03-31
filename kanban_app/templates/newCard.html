@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+
+
+{% block styles %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="box card-div">
+    <h1>Add a Task</h1>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+
+
+    <form action="{{ url_for('views.createCard', li_id = li_id)}}" method="post">
+
+        <div class="form-group">
+            <label for="list-card">Lists</label>
+            <select name="list-card" class="custom-select custom-dropdown custom-form-input">
+
+                {% for i in user.lists %}
+                {% if i.list_id == li_id %}
+                <option value="{{ i.list_id }}" selected>{{ i.list_name}}</option>
+                {% else %}
+                <option value="{{ i.list_id }}">{{ i.list_name}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="name">Title </label>
+            <input type="text" name="name" placeholder="title" required="required" />
+        </div>
+
+        <div>
+            <label for="content">Content </label>
+            <input type="text" name="content" placeholder="Content" required="required" />
+        </div>
+
+        <div>
+            <label for="deadline">Deadline </label>
+            <input type="date" min="{{ t_date }}" name="deadline" placeholder="Description" required="required" />
+        </div>
+
+        <p>Task Progress</p>
+        <input class="form-check-input radio-inline" type="radio" name="completed_percent" id="card_radio" value="0"
+            checked>
+        <label class="form-check-label " for="card_radio">
+            0%
+        </label>
+
+        <input class="form-check-input radio-inline" type="radio" name="completed_percent" id="card_radio" value="25">
+        <label class="form-check-label" for="card_radio">
+            25%
+        </label>
+        <input class="form-check-input radio-inline" type="radio" name="completed_percent" id="card_radio" value="50">
+        <label class="form-check-label" for="card_radio">
+            50%
+        </label>
+        <input class="form-check-input radio-inline" type="radio" name="completed_percent" id="card_radio" value="75">
+        <label class="form-check-label" for="card_radio">
+            75%
+        </label>
+        <input class="form-check-input radio-inline" type="radio" name="completed_percent" id="card_radio" value="100">
+        <label class="form-check-label" for="card_radio">
+            100%
+        </label>
+        <!-- </div> -->
+
+
+
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Submit</button>
+    </form>
+
+</div>
+
+{% endblock %}

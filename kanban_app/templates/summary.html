@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<br>
+
+<h6 class="card-text user-name mar-fix" style="font-size: x-large;">
+    Hi {{ user.name | capitalize }},
+
+</h6>
+
+{% if user_lists|length == 0 %}
+<h4 class="card-text"> Board is Empty! Add New todo list</h4>
+
+{% else %}
+
+
+<div class="row">
+
+    {% for i in range(user_lists|length) %}
+
+    <div class="list-column col-lg-3 col-md-6">
+        <div class="card h-100 card-list">
+            <div class="card-header">
+                <h5 class="card-text style" style="padding: 5px;">{{user_lists[i].list_name}}</h5>
+            </div>
+            <div class="card-body card-list-body overflow-auto">
+                {% if user_lists[i].cards | length == 0 %}
+
+                <h5 style="width: 100px;
+                margin-left: auto;
+                margin-right: auto;">No Tasks yet!</h5>
+
+                {% else %}
+                {% set path = 'list_'+ user_lists[i].list_id | string() +".png" %}
+                <div class="text-center">
+                    <img src='..\static\graphs\{{path}}' alt="{{user_lists[i].list_name}}" class="img-fluid mh-100">
+                </div>
+                <h6>Tasks Remaining - {{ user_lists[i].tasks_remaining}}</h6>
+                <h6>Tasks Completed - {{ user_lists[i].tasks_completed}}</h6>
+                
+                {% for j in range(user_lists[i].cards|length) %}
+                    {% if user_lists[i].cards[j].deadline < t_date %}
+                        
+                        {% if j==0 %}
+                            <h6><b>Deadline passed tasks:</b></h6>
+                        {% endif %}
+
+                        <h6>{{user_lists[i].cards[j].card_title}}</h6>
+                      
+                    {% endif %}
+                {% endfor %}
+                {% endif %}
+            
+            </div>
+
+        </div>
+    </div>
+
+
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}

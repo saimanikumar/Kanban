@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<br>
+<h6 class="card-text user-name mar-fix" style="display: inline-block; font-size: x-large; padding-left: 0px;">
+    Hi {{ user.name | capitalize }},
+    {% for j in range(88) %}
+        &nbsp;
+    {% endfor %}
+</h6>
+<a class="nav-link btn  btn-block btn-large" style="display: inline-block ; padding: 2.5px; font-size: large;" href="{{ url_for('views.createList')}}">+Add List</a>
+
+
+
+{% if user_lists|length == 0 %}
+<h4 class="card-text"> Board is Empty! Add New todo list</h4>
+<ul class="nav-item">
+
+</ul>
+{% else %}
+
+
+<div class="row">
+
+    {% for i in range(user_lists|length) %}
+
+    <div class="list-column col-lg-3 col-md-4">
+        <div class="card card-list">
+            <div class="card-header ">
+
+                <div class="dropdown">
+                    <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                        {{ user_lists[i].list_name }}
+                    </button>
+                    <ul class="dropdown-menu button-color">
+                        <li><a class="dropdown-item btn btn-primary button-color"
+                                href="{{ url_for('views.updateList', id = user_lists[i].list_id) }}">Update</a>
+                        </li>
+                        <li><a class="dropdown-item btn btn-outline-danger button-color"
+                                href="{{ url_for('views.deleteList', id = user_lists[i].list_id) }}"
+                                onclick="return confirm('Are you sure to delete?')">Delete</a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="card-body card-body-color overflow-auto card-list-body">
+
+                <p class="card-text">{{ user_lists[i].description }}</p>
+                <a class="nav-link btn btn-outline-light" role="button" style="display: inline-block ; padding: 3px;" href="{{ url_for('views.createCard', li_id = user_lists[i].list_id) }}">+Add
+                    Task</a>
+
+                {% if user_cards|length == 0 %}
+
+                <h6 class="card-text"> List is Empty! Add New new remainder</h6>
+
+                {% else %}
+
+                {% for j in user_cards[i] %}
+                <div class="list-column col-lg-12">
+                    <div class="card card-card1">
+                        <div class="card-header">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-light dropdown-toggle" data-bs-toggle="dropdown">
+                                    {{ j.card_title }}
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item btn btn-outline-primary"
+                                            href="{{ url_for('views.updateCard', c_id = j.card_id) }}">Update</a>
+                                    </li>
+                                    <li><a class="dropdown-item btn btn-outline-danger"
+                                            href="{{ url_for('views.deleteCard', c_id = j.card_id) }}"
+                                            onclick="return confirm('Are you sure to delete?')">Delete</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ j.content }}</p>
+                            <h6 class="card-text">{{ j.deadline.strftime('%d-%m-%Y') }}</h6>
+
+                            <div class="progress">
+                                <div {% if j.is_complete==100 %} class="progress-bar bg-success" {% else %}
+                                    class="progress-bar" {% endif %} role="progressbar"
+                                    style="width: {{j.is_complete}}%;" aria-valuenow="{{j.is_complete}}"
+                                    aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+                {% endif %}
+
+
+            </div>
+
+        </div>
+    </div>
+
+    {% endfor %}
+
+</div>
+{% endif %}
+
+{% endblock %}

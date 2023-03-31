@@ -1,0 +1,619 @@
+openapi: 3.0.3
+info:
+  title: Kanban
+  version: 1.0.2
+  description: >-
+    Here, different types of tasks can be sheduled. Tasks mangement, where you
+    can fix the deadline and can chceck the status of your project at any time
+    <h2>
+    ER Diagram
+    </h2>
+    <center>
+    <img src="https://mermaid.ink/img/pako:eNptU0FuwyAQ_MqKc_IBX5v0ElWKlPRmyUKwSVEwWLBWWzn-ewGnjnHwBZgZltkxDExYiaxi6HaKXx1vawPz9-nRAdzv260d4GylbbTyBBXEwS-VT_KhfuNOBqEIQyZMeG3WpwxLAEBJUIbgeMhhbLnS4Mkpc82Zjnv_bUPpEml4i3BaEeNzOptfuwgWItwEO8dbzk3nTHSsn7Nn_CHYoRdOdaSsea3bh6Zj3fdFiyM85zGngp2YZ7JzKNpJNCnSJT_CGkJDOSM5IUjkUiuDUOCI-1sjbNtpJJRNxF5tKT9LShGGLiFPflottfk-tmEtuvC7ZbibKYea0ReGnFkVphIvvNdUs9qMQcp7sqdfI1hFrscN67to83GhWXXh2s_oXiqy7l-JafUxvYH0FMY__-3cfQ">
+    </img>
+    <center>
+tags:
+  - name: User
+    description: Operations about user
+  - name: List
+    description: Add Tasks of similar interest
+  - name: Card
+    description: Task of specific List
+  - name: Summary
+    description: Gives the information about pending and completed tasks for a given list
+servers:
+  - url: http://127.0.0.1:8080/
+paths:
+  /api/user:
+    summary: CRUD operations on user
+    post:
+      summary: Creates new kanban account to the user
+      description: User can create a new account
+      operationId: user
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              examples:
+                user details:
+                  value: |-
+                    {
+                      "id": 1,
+                      "name": "Mahesh",
+                      "email": "abcde@gmail.com"
+                    }
+        '400':
+          description: Invalid password
+        '500':
+          description: Internal server error
+      tags:
+        - User
+      parameters:
+        - name: username
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+    get:
+      summary: gets the user details
+      description: ''
+      operationId: loginuser
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              examples:
+                user details:
+                  value: |-
+                    {
+                      "id": 1,
+                      "name": "Mahesh",
+                      "email": "email21@gmail.com"
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+        
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password for login in clear text
+          required: true
+          schema:
+            type: string
+    put:
+      summary: user can update the user name
+      description: ''
+      operationId: userupdation
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                update details:
+                  value: |-
+                    {
+                      "id": 4,
+                      "name": "user_name",
+                      "email": "email123@gmail.com"
+                    }
+        '400':
+          description: Invalid password or duplicate user or username
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+      tags:
+        - User
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: name
+          in: query
+          description: new updation if needed
+          required: false
+          schema:
+            type: string
+  /api/list:
+    summary: CRUD operations on list
+    get:
+      summary: gets the list details
+      description: ''
+      operationId: get the list details
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              examples:
+                list details:
+                  value: |-
+                    {
+                      "list_id": 1,
+                      "list_name": "sasasas",
+                      "description": "assa",
+                      "tasks_completed": 0,
+                      "tasks_remaining": 3
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list_id not found
+        '500':
+          description: Internal server error
+      tags:
+        - List
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer
+    post:
+      summary: creates new list
+      description: ''
+      operationId: new_list
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                create list:
+                  value: |-
+                    {
+                      "list_id": 12,
+                      "list_name": "birthday",
+                      "description": "birthday_remainders",
+                      "tasks_completed": 0,
+                      "tasks_remaining": 0
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list not found
+        '500':
+          description: Internal server error
+      tags:
+        - List
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_name
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: string
+    put:
+      summary: updates the list
+      description: ''
+      operationId: list_update
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              examples:
+                list_update:
+                  value: |-
+                    {
+                      "list_id": 1,
+                      "list_name": "lis_name",
+                      "description": "description",
+                      "tasks_completed": 0,
+                      "tasks_remaining": 3
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list not found
+        '500':
+          description: Internal server error
+      tags:
+        - List
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer
+        - name: list_name
+          in: query
+          description: new updation if needed
+          required: false
+          schema:
+            type: string
+        - name: description
+          in: query
+          description: new updation if needed
+          required: false
+          schema:
+            type: string
+    delete:
+      summary: deletes the list
+      description: ''
+      operationId: list_delete
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list not found
+        '500':
+          description: Internal server error
+      tags:
+        - List
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer
+  /api/card:
+    summary: CRUD operations on card
+    get:
+      summary: gives card details
+      description: ''
+      operationId: card_info
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                card details:
+                  value: |-
+                    {
+                      "card_id": 17,
+                      "card_title": "authentication",
+                      "content": "asdff",
+                      "deadline": "2022-09-28 00:00:00",
+                      "is_complete": 25
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or card not found
+        '500':
+          description: Internal server error
+      tags:
+        - Card
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: card_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer
+    post:
+      summary: creates new card
+      description: ''
+      operationId: card_creation
+      responses:
+        '200':
+          description: Default error sample response
+          content:
+            application/json:
+              examples:
+                card_create:
+                  value: |-
+                    {
+                      "card_id": 8,
+                      "card_title": "title",
+                      "content": "content",
+                      "deadline": "2020-04-24 00:00:00",
+                      "is_complete": 75
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list not found
+        '500':
+          description: Internal server error
+        
+      tags:
+        - Card
+      parameters:
+        - name: email
+          in: query
+          description: The email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: list id
+          required: true
+          schema:
+            type: integer
+        - name: card_title
+          in: query
+          description: card title
+          required: true
+          schema:
+            type: string
+        - name: content
+          in: query
+          description: content
+          required: true
+          schema:
+            type: string
+        - name: deadline
+          in: query
+          description: deadline {yyyy-mm-dd}
+          required: true
+          schema:
+            type: string
+        - name: percent
+          in: query
+          description: percent (0, 25, 50, 75, 100)
+          required: true
+          schema:
+            type: string
+    put:
+      summary: updates existing card
+      description: ''
+      operationId: card_updation
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              examples:
+                upadate_card:
+                  value: |-
+                    {
+                      "card_id": 20,
+                      "card_title": "assignment",
+                      "content": "linear algebra",
+                      "deadline": "2022-09-07 00:00:00",
+                      "is_complete": 25
+                    }
+        '400':
+          description: Invalid password
+        '404':
+          description: User or list or card not found
+        '500':
+          description: Internal server error
+      tags:
+        - Card
+      parameters:
+        - name: email
+          in: query
+          description: The email for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: list id
+          required: true
+          schema:
+            type: integer
+        - name: card_id
+          in: query
+          description: card id
+          required: true
+          schema:
+            type: integer
+        - name: card_title
+          in: query
+          description: card title
+          required: false
+          schema:
+            type: string
+        - name: content
+          in: query
+          description: content
+          required: false
+          schema:
+            type: string
+        - name: deadline
+          in: query
+          description: deadline {yyyy-mm-dd}
+          required: false
+          schema:
+            type: string
+        - name: percent
+          in: query
+          description: percent (0, 25, 50, 75, 100)
+          required: false
+          schema:
+            type: string
+    delete:
+      summary: task can be deleted
+      description: ''
+      operationId: card_delete
+      responses:
+        "200":
+          description: successful operation
+        '400':
+          description: Invalid password
+        '404':
+          description: User or card not found
+        '500':
+          description: Internal server error
+      tags:
+        - Card
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: card_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer
+  /api/summary:
+    summary: gives the summary details of the specific list
+    get:
+      summary: summar of list
+      description: ''
+      operationId: list_summary
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              examples:
+                summary_info:
+                  value: |-
+                    {
+                      "tasks_completed": 0,
+                      "tasks_remaining": 1
+                    }
+        '400':
+          description: Invalid password or list_id or email
+        '404':
+          description: User not found
+        '500':
+          description: Internal server error
+      tags:
+        - Summary
+      parameters:
+        - name: email
+          in: query
+          description: The user name for login
+          required: true
+          schema:
+            type: string
+        - name: password
+          in: query
+          description: The password
+          required: true
+          schema:
+            type: string
+        - name: list_id
+          in: query
+          description: new updation if needed
+          required: true
+          schema:
+            type: integer

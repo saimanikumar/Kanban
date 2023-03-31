@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="box card-div">
+    <h1>Update a List</h1>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('views.updateList', id = curr_id)}}" method="post">
+
+        <div>
+            <label for="name">Name  </label>
+            <input type="text" name="name" placeholder="name" value="{{ curr_list.list_name }}" required="required" />
+        </div>
+        
+        <div>
+            <label for="description">Description    </label>
+            <input type="text" name="description" placeholder="Description" value="{{ curr_list.description }}" required="required" />
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-large">Submit</button>
+    </form>
+
+</div>
+
+{% endblock %}
