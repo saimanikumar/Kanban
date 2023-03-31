@@ -5,7 +5,7 @@ matplotlib
 MarkupSafe==2.1.1
 Pillow==9.2.0
 colorama==0.4.5
-cycler==0.11.0
+cycler
 pandas==1.5.0
 python-dateutil==2.8.2
 numpy==1.23.3
